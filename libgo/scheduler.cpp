@@ -140,7 +140,12 @@ uint32_t Scheduler::Run(int flags)
                 info.sleep_ms = (std::min)(info.sleep_ms, GetOptions().max_sleep_ms);
                 info.sleep_ms = (std::min<long long>)(info.sleep_ms, next_ms);
                 DebugPrint(dbg_scheduler_sleep, "sleep %d ms, next_ms=%lld", (int)info.sleep_ms, next_ms);
-                usleep(info.sleep_ms * 1000);
+                
+                struct timeval tv; 
+                tv.tv_usec = info.sleep_ms * 1000;
+                tv.tv_sec = 0;
+                select(0, NULL, NULL, NULL, &tv);
+                // usleep(info.sleep_ms * 1000);
             }
         } else {
             info.sleep_ms = 1;
