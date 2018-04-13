@@ -50,6 +50,8 @@ public:
 
     bool IsWakeup();
 
+    bool IsWaiting();
+    
 private:
     void CancelWait(Task* tk, uint32_t block_sequence, bool in_timer = false);
 

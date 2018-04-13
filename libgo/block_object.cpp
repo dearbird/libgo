@@ -156,6 +156,12 @@ bool BlockObject::IsWakeup()
     return wakeup_ > 0;
 }
 
+bool BlockObject::IsWaiting()
+{
+    std::unique_lock<LFLock> lock(lock_);
+    return !wait_queue_.empty();
+}
+
 bool BlockObject::AddWaitTask(Task* tk)
 {
     std::unique_lock<LFLock> lock(lock_);
